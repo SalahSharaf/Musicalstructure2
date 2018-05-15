@@ -21,6 +21,7 @@
         android:textColor="@color/colorPrimary"
         android:text="sdscdsDsdc"
         android:textSize="14sp"
+        android:textAllCaps="false"
         android:fontFamily="monospace"/>
 
     <TextView
