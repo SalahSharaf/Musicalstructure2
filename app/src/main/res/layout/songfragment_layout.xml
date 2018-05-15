@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="cursive"
+        android:gravity="center"
+        android:text="Songs"
+        android:textSize="24sp"
+        android:layout_marginVertical="5sp"/>
+    <TextView
+        android:id="@+id/txtNumberOfSongs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="12 songs"
+        android:textSize="26sp"
+        android:layout_marginVertical="15dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorPrimary"/>
+    <ListView
+        android:id="@+id/listOfSongs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="10dp">
+
+    </ListView>
+</LinearLayout>

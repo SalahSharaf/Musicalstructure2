@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imgbackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/background1" />
+
+    <TextView
+        android:id="@+id/txtlogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Musical Structure"
+        android:fontFamily="cursive"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <HorizontalScrollView
+        android:id="@+id/groupbtns"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtlogo"
+        android:paddingVertical="10dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btngenres"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:onClick="genresLayout"
+                android:background="@drawable/btndrawable"
+                android:fontFamily="sans-serif-condensed"
+                android:text="Genres" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:onClick="PlaylistLayout"
+                android:layout_weight="1"
+
+                android:background="@drawable/btndrawable"
+                android:fontFamily="sans-serif-condensed"
+                android:text="Playlist" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:onClick="SongsLayout"
+                android:background="@drawable/btndrawable"
+                android:fontFamily="sans-serif-condensed"
+                android:text="Songs" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+
+                android:layout_marginRight="10dp"
+                android:background="@drawable/btndrawable"
+                android:fontFamily="sans-serif-condensed"
+                android:text="Artists" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+
+                android:background="@drawable/btndrawable"
+                android:fontFamily="sans-serif-condensed"
+                android:text="Albums" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+
+                android:background="@drawable/btndrawable"
+                android:fontFamily="sans-serif-condensed"
+                android:text="Foldes" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/groupbtns"
+        android:background="@color/colorPrimary" />
+
+    <android.support.v4.view.ViewPager
+        android:layout_marginTop="10dp"
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/view"/>
+</RelativeLayout>
