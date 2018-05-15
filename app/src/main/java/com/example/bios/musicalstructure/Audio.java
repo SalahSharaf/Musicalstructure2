@@ -9,12 +9,21 @@ public class Audio {
     private String aAlbum;
     private String aArtist;
     private Bitmap albumArt;
+    private long duration;
     public String getaPath() {
         return aPath;
     }
 
     public void setaPath(String aPath) {
         this.aPath = aPath;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 
     public Bitmap getAlbumArt() {
@@ -48,4 +57,6 @@ public class Audio {
     public void setaArtist(String aArtist) {
         this.aArtist = aArtist;
     }
+
+
 }
