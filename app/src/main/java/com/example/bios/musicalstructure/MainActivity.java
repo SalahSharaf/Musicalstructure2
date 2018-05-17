@@ -20,7 +20,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button btn = findViewById(R.id.btngenres);
+        final Button btn = findViewById(R.id.btngenres);
+        final Button btn2=findViewById(R.id.btnplaylist);
+        final Button btn3=findViewById(R.id.btnsongs);
+        btn.setActivated(true);
         btn.setSelected(true);
         viewpager = findViewById(R.id.viewpager);
         MyFragmentPagerAdapter fg = new MyFragmentPagerAdapter(getSupportFragmentManager());
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     imgbackground.setImageResource(R.drawable.background1);
+                                    btn.setActivated(true);
                                 }
                             });
                             break;
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     imgbackground.setImageResource(R.drawable.background2);
+                                    btn2.setActivated(true);
                                 }
                             });
                             break;
@@ -54,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     imgbackground.setImageResource(R.drawable.background3);
+                                    btn3.setActivated(true);
                                 }
                             });
                             break;

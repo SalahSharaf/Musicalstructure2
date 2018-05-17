@@ -18,7 +18,7 @@
         android:lines="1"
         android:maxLines="1"
         android:gravity="start|center"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryLight"
         android:text="sdscdsDsdc"
         android:textSize="14sp"
         android:textAllCaps="false"
@@ -33,9 +33,12 @@
         android:layout_alignParentTop="true"
         android:textSize="14sp"
         android:text="12:45"
+        android:textColor="@color/colorPrimaryLight"
         android:gravity="center"/>
+
     <View android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryLight"
         android:layout_alignBottom="@id/name"/>
+
 </RelativeLayout>

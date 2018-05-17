@@ -42,23 +42,26 @@
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:layout_marginRight="10dp"
+                android:focusable="true"
+                android:focusedByDefault="true"
                 android:onClick="genresLayout"
                 android:background="@drawable/btndrawable"
                 android:fontFamily="sans-serif-condensed"
                 android:text="Genres" />
 
             <Button
+                android:id="@+id/btnplaylist"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginRight="10dp"
                 android:onClick="PlaylistLayout"
                 android:layout_weight="1"
-
                 android:background="@drawable/btndrawable"
                 android:fontFamily="sans-serif-condensed"
                 android:text="Playlist" />
 
             <Button
+                android:id="@+id/btnsongs"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginRight="10dp"
@@ -72,7 +75,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-
                 android:layout_marginRight="10dp"
                 android:background="@drawable/btndrawable"
                 android:fontFamily="sans-serif-condensed"
@@ -83,7 +85,6 @@
                 android:layout_height="40dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-
                 android:background="@drawable/btndrawable"
                 android:fontFamily="sans-serif-condensed"
                 android:text="Albums" />
@@ -93,7 +94,6 @@
                 android:layout_height="40dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-
                 android:background="@drawable/btndrawable"
                 android:fontFamily="sans-serif-condensed"
                 android:text="Foldes" />
