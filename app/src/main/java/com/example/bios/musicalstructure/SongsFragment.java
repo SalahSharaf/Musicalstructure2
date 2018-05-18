@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.UiThread;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -45,6 +46,8 @@ public class SongsFragment extends Fragment {
     public static boolean isPlaying;
     ImageButton btnplay;
     ImageButton btnprevious, btnnext;
+     TextView artist;
+     TextView songName;
 
     public static SongsFragment getInstance() {
         return new SongsFragment();
@@ -60,63 +63,26 @@ public class SongsFragment extends Fragment {
         View view = inflater.inflate(R.layout.songfragment_layout, null);
         listView = view.findViewById(R.id.listOfSongs);
         numOfSongs = view.findViewById(R.id.txtnumberOfSongs);
-        ReadStoragePermissionGranted();
-        final TextView songName = view.findViewById(R.id.txtsongName);
-        final TextView artist = view.findViewById(R.id.txtsongArtisit);
+        //ReadStoragePermissionGranted();
+        songName = view.findViewById(R.id.txtsongName);
+        artist = view.findViewById(R.id.txtsongArtisit);
         if (savedInstanceState != null) {
             bundle = getFragmentManager().getFragment(savedInstanceState, "KEY").getArguments();
             number = bundle.getInt("position");
         }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    item = listOfAudios.get(number);
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            songName.setText(item.getaName());
-                            artist.setText(item.getaArtist());
-                            if (isPlaying) {
-                                btnplay.setImageResource(R.drawable.ic_play_arrow_black_24dp);
-                                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                                    @Override
-                                    public void onCompletion(MediaPlayer mp) {
-                                        number += 1;
-                                        item = listOfAudios.get(number);
-                                        mediaPlayer.release();
-                                        mediaPlayer = MediaPlayer.create(getContext(), Uri.parse(item.getaPath()));
-                                        mediaPlayer.start();
-                                    }
-                                });
-                            } else {
-                                btnplay.setImageResource(R.drawable.ic_pause_black_24dp);
-                            }
-                        }
-                    });
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                    }
-                    if (isPlaying) {
-
-                    }
-                }
-            }
-        }).start();
-        PlayMusicFunction(view);
-        checkCurrentSongColor();
-        btnpreviousEvent(view);
-        btnnextEvent(view);
-        LinearLayout linearLayout = view.findViewById(R.id.namePattern);
-        linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AudioStudioFragment.class);
-                intent.putParcelableArrayListExtra("List",listOfAudios);
-                startActivity(intent);
-            }
-        });
+        //PlayMusicFunction(view);
+        //checkCurrentSongColor();
+        //btnpreviousEvent(view);
+       // btnnextEvent(view);
+       // LinearLayout linearLayout = view.findViewById(R.id.namePattern);
+       // linearLayout.setOnClickListener(new View.OnClickListener() {
+       //     @Override
+       //     public void onClick(View v) {
+       //         Intent intent = new Intent(getContext(), AudioStudioFragment.class);
+       //         intent.putParcelableArrayListExtra("List",listOfAudios);
+       //         startActivity(intent);
+       //     }
+       // });
         return view;
     }
 
@@ -246,13 +212,9 @@ public class SongsFragment extends Fragment {
                 String album = c.getString(1);
                 String artist = c.getString(2);
                 try {
-                    String albumartpath = c.getString(c.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART));
-                    Bitmap p = BitmapFactory.decodeFile(albumartpath);
+                    Bitmap p = BitmapFactory.decodeFile(c.getString(3));
                     audioModel.setAlbumArt(p);
                 }catch (IllegalArgumentException ex){}
-                //Long albumId = c.getLong(c.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID));
-               // Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
-               // Uri albumArtUri = ContentUris.withAppendedId(sArtworkUri, albumId);
                 ////getting duration
                 audioModel.setDuration(Integer.valueOf(c.getString(4)));
                 ///getting name
@@ -274,6 +236,8 @@ public class SongsFragment extends Fragment {
                 MyListViewAdapter listViewAdapter = new MyListViewAdapter(getContext(), listOfAudios);
                 listView.setAdapter(listViewAdapter);
                 numOfSongs.setText(listOfAudios.size() + " Songs");
+                uiThread();
+
             } else {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 3);
             }
@@ -290,29 +254,69 @@ public class SongsFragment extends Fragment {
                     MyListViewAdapter listViewAdapter = new MyListViewAdapter(getContext(), listOfAudios);
                     listView.setAdapter(listViewAdapter);
                     numOfSongs.setText(listOfAudios.size() + " Songs");
+                    uiThread();
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage("permissions hasn't been granted");
-                    builder.setPositiveButton("Grant", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            ReadStoragePermissionGranted();
-                        }
-                    });
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                            dialog.dismiss();
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+                //    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                //    builder.setMessage("permissions hasn't been granted");
+                 //   builder.setPositiveButton("Grant", new DialogInterface.OnClickListener() {
+                 ///       @Override
+                 //       public void onClick(DialogInterface dialog, int id) {
+                  //          ReadStoragePermissionGranted();
+                 //       }
+                  //  });
+                 //   builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                   //     @Override
+                   //     public void onClick(DialogInterface dialog, int id) {
+                 //           dialog.cancel();
+                   ///         dialog.dismiss();
+                    //    }
+                   // });
+                  //  AlertDialog dialog = builder.create();
+                   // dialog.show();
                 }
             }
         }
     }
+    public void uiThread(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    item = listOfAudios.get(number);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            songName.setText(item.getaName());
+                            artist.setText(item.getaArtist());
+                            if (isPlaying) {
+                                btnplay.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+                                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                    @Override
+                                    public void onCompletion(MediaPlayer mp) {
+                                        number += 1;
+                                        item = listOfAudios.get(number);
+                                        mediaPlayer.release();
+                                        mediaPlayer = MediaPlayer.create(getContext(), Uri.parse(item.getaPath()));
+                                        mediaPlayer.start();
+                                    }
+                                });
+                            } else {
+                                btnplay.setImageResource(R.drawable.ic_pause_black_24dp);
+                            }
+                        }
+                    });
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                    }
+                    if (isPlaying) {
 
+                    }
+                }
+            }
+        }).start();
+
+    }
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
