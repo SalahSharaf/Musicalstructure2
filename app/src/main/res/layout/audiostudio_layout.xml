@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/btnback"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimaryDark"
+        android:onClick="goback"
+        android:src="@drawable/ic_keyboard_backspace_black_24dp"
+        android:tint="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/txtSongNameinStudio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/btnback"
+        android:text="sonSname"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/txtDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/seekBar"
+        android:layout_marginRight="20dp"
+        android:text="00:00"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txtPosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/seekBar"
+        android:layout_marginLeft="20dp"
+        android:text="0:0"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/cover"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:scaleType="centerCrop" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circularCover"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_above="@id/devider"
+        android:layout_centerHorizontal="true"
+        android:elevation="10dp"
+        android:src="@drawable/background3"
+        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_width="2dp"
+        app:civ_circle_background_color="@color/colorPrimary" />
+
+    <View
+        android:id="@+id/devider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true" />
+
+    <ImageButton
+        android:id="@+id/btnplay"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/btndrawable_more_rounded"
+        android:onClick="playPause"
+        android:src="@drawable/ic_pause_black_24dp" />
+
+    <ImageButton
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="28dp"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/btnplay"
+        android:background="@drawable/btndrawable_more_rounded"
+        android:onClick="previous"
+        android:src="@drawable/ic_skip_previous_black_24dp" />
+
+    <ImageButton
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="28dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/btnplay"
+        android:background="@drawable/btndrawable_more_rounded"
+        android:onClick="next"
+        android:src="@drawable/ic_skip_next_black_24dp" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_above="@id/btnplay"
+
+        android:scrollIndicators="start"
+        android:scrollbarSize="10dp"
+        android:scrollbars="horizontal" />
+
+</RelativeLayout>

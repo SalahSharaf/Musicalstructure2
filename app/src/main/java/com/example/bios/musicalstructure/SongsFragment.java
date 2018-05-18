@@ -245,12 +245,14 @@ public class SongsFragment extends Fragment {
                 String path = c.getString(0);
                 String album = c.getString(1);
                 String artist = c.getString(2);
-                //String albumartpath = c.getString(c.getColumnIndexOrThrow(MediaStore.Audio.Albums.ALBUM_ART));
-                Long albumId = c.getLong(c.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID));
-                Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
-                Uri albumArtUri = ContentUris.withAppendedId(sArtworkUri, albumId);
-                Bitmap p = BitmapFactory.decodeFile(albumArtUri.toString());
-                audioModel.setAlbumArt(p);
+                try {
+                    String albumartpath = c.getString(c.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART));
+                    Bitmap p = BitmapFactory.decodeFile(albumartpath);
+                    audioModel.setAlbumArt(p);
+                }catch (IllegalArgumentException ex){}
+                //Long albumId = c.getLong(c.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID));
+               // Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
+               // Uri albumArtUri = ContentUris.withAppendedId(sArtworkUri, albumId);
                 ////getting duration
                 audioModel.setDuration(Integer.valueOf(c.getString(4)));
                 ///getting name
