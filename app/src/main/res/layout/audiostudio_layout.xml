@@ -26,7 +26,8 @@
         android:text="sonSname"
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/txtDuration"

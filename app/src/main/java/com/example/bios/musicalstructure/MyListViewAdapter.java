@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,19 +16,12 @@ import java.util.concurrent.TimeUnit;
 public class MyListViewAdapter extends ArrayAdapter<Audio> {
     Context context;
     ArrayList<Audio> list;
+    Thread thread;
 
     public MyListViewAdapter(Context context, ArrayList<Audio> list) {
         super(context, 0, list);
         this.context = context;
         this.list = list;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-
-                }
-            }
-        }).start();
     }
 
     @Override
@@ -38,30 +30,62 @@ public class MyListViewAdapter extends ArrayAdapter<Audio> {
     }
 
     @Override
-    public View getView( int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.listitem_layout, parent, false);
         }
-        Button btn = convertView.findViewById(R.id.name);
+        final Button btn = convertView.findViewById(R.id.name);
         btn.setTag(position);
         btn.setText(list.get(position).getaName());
-        TextView imageView = convertView.findViewById(R.id.imageCover);
+        TextView txtDuration = convertView.findViewById(R.id.txtDuration);
         long duration = list.get(position).getDuration();
-        imageView.setText(getFormattedDuration(duration));
+        txtDuration.setText(getFormattedDuration(duration));
+
+        if (SongsFragment.mediaPlayer != null) {
+            SongsFragment.mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    SongsFragment.number += 1;
+                    SongsFragment.workingAudio = list.get(SongsFragment.number);
+                    SongsFragment.mediaPlayer = MediaPlayer.create(getContext(), Uri.parse(SongsFragment.workingAudio.getaPath()));
+                    SongsFragment.mediaPlayer.start();
+                    btn.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                }
+            });
+        }
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 if (SongsFragment.mediaPlayer != null) {
                     SongsFragment.mediaPlayer.release();
                     SongsFragment.mediaPlayer = null;
                 }
                 SongsFragment.number = (Integer) v.getTag();
-                SongsFragment.item = list.get((Integer) v.getTag());
+                SongsFragment.workingAudio = list.get((Integer) v.getTag());
                 SongsFragment.isPlaying = true;
-                SongsFragment.mediaPlayer = MediaPlayer.create(getContext(), Uri.parse(SongsFragment.item.getaPath()));
+                SongsFragment.mediaPlayer = MediaPlayer.create(getContext(), Uri.parse(SongsFragment.workingAudio.getaPath()));
                 SongsFragment.mediaPlayer.start();
-                Button btn = (Button) v;
+                final Button btn = (Button) v;
                 btn.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                SongsFragment.songName.setText(list.get((Integer) v.getTag()).getaName());
+                SongsFragment.artist.setText(list.get((Integer) v.getTag()).getaArtist());
+                SongsFragment.btnplay.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_pause_black_24dp));
+                thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (SongsFragment.workingAudio == list.get((Integer) v.getTag())) {
+                            btn.setTextColor(getContext().getResources().getColor(R.color.colorPrimary));
+                        } else {
+                            btn.setTextColor(getContext().getResources().getColor(R.color.colorAccent));
+                        }
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                thread.start();
 
             }
         });

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.File;
 import java.io.Serializable;
 
 public class Audio implements Parcelable,Serializable {
@@ -13,7 +14,7 @@ public class Audio implements Parcelable,Serializable {
     private String aAlbum;
     private String aArtist;
     private Bitmap albumArt;
-    private int duration;
+    private Long aDuration;
 
     protected Audio(Parcel in) {
         aPath = in.readString();
@@ -21,10 +22,15 @@ public class Audio implements Parcelable,Serializable {
         aAlbum = in.readString();
         aArtist = in.readString();
         albumArt = in.readParcelable(Bitmap.class.getClassLoader());
-        duration = in.readInt();
+        aDuration = in.readLong();
     }
-    public Audio(){
-
+    public Audio(String apath,String aName,String aAlbum,String aArtist,Bitmap ablumArt,Long aDuration){
+        this.aPath=apath;
+        this.aName=aName;
+        this.aAlbum=aAlbum;
+        this.aArtist=aArtist;
+        this.albumArt=ablumArt;
+        this.aDuration=aDuration;
     }
     public static final Creator<Audio> CREATOR = new Creator<Audio>() {
         @Override
@@ -46,12 +52,12 @@ public class Audio implements Parcelable,Serializable {
         this.aPath = aPath;
     }
 
-    public int getDuration() {
-        return duration;
+    public Long getDuration() {
+        return aDuration;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setDuration(Long duration) {
+        this.aDuration = duration;
     }
 
     public Bitmap getAlbumArt() {
@@ -99,6 +105,6 @@ public class Audio implements Parcelable,Serializable {
         dest.writeString(aAlbum);
         dest.writeString(aArtist);
         dest.writeParcelable(albumArt, flags);
-        dest.writeInt(duration);
+        dest.writeLong(aDuration);
     }
 }

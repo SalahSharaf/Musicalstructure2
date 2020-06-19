@@ -5,4 +5,5 @@
     <color name="colorAccent">#FFFFFF</color>
     <color name="colorPrimaryLight">#EEEEEE</color>
     <color name="transparent">#00ffffff</color>
+    <color name="black">#000000</color>
 </resources>

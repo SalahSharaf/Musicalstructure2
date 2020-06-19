@@ -64,7 +64,6 @@
             android:id="@+id/btnsongplay"
             android:layout_width="60dp"
             android:layout_height="60dp"
-
             android:layout_toLeftOf="@id/btnsongPrevious"
             android:src="@drawable/ic_play_arrow_black_24dp"
             android:background="@drawable/btndrawable_more_rounded"/>
