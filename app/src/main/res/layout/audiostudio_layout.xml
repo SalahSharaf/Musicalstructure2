@@ -35,6 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/seekBar"
+        android:textColor="@color/colorAccent"
         android:layout_marginRight="20dp"
         android:text="00:00"
         android:textSize="16sp" />
@@ -45,6 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/seekBar"
+        android:textColor="@color/colorAccent"
         android:layout_marginLeft="20dp"
         android:text="0:0"
         android:textSize="16sp" />
@@ -53,7 +55,11 @@
         android:id="@+id/cover"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/btnback"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/background3"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@id/seekBar"
         android:scaleType="centerCrop" />
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -86,6 +92,7 @@
         android:src="@drawable/ic_pause_black_24dp" />
 
     <ImageButton
+        android:id="@+id/btnSongPrevious"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"
@@ -97,6 +104,7 @@
         android:src="@drawable/ic_skip_previous_black_24dp" />
 
     <ImageButton
+        android:id="@+id/btnSongNext"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"
@@ -112,7 +120,6 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_above="@id/btnplay"
-
         android:scrollIndicators="start"
         android:scrollbarSize="10dp"
         android:scrollbars="horizontal" />

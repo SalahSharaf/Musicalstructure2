@@ -18,7 +18,7 @@
         android:lines="1"
         android:maxLines="1"
         android:gravity="start|center"
-        android:textColor="@color/colorPrimaryLight"
+        android:textColor="@color/black"
         android:text="sdscdsDsdc"
         android:textSize="14sp"
         android:textAllCaps="false"

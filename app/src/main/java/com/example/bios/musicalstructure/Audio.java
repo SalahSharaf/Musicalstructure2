@@ -6,6 +6,7 @@ import android.os.Parcelable;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.Date;
 
 public class Audio implements Parcelable,Serializable {
 
@@ -15,7 +16,42 @@ public class Audio implements Parcelable,Serializable {
     private String aArtist;
     private Bitmap albumArt;
     private Long aDuration;
+    private int albumID;
+    private int date;
 
+    public Long getaDuration() {
+        return aDuration;
+    }
+
+    public void setaDuration(Long aDuration) {
+        this.aDuration = aDuration;
+    }
+
+    public int getAlbumID() {
+        return albumID;
+    }
+
+    public void setAlbumID(int albumID) {
+        this.albumID = albumID;
+    }
+
+    public int getDate() {
+        return date;
+    }
+
+    public void setDate(int date) {
+        this.date = date;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    private String genre;
     protected Audio(Parcel in) {
         aPath = in.readString();
         aName = in.readString();
@@ -24,13 +60,16 @@ public class Audio implements Parcelable,Serializable {
         albumArt = in.readParcelable(Bitmap.class.getClassLoader());
         aDuration = in.readLong();
     }
-    public Audio(String apath,String aName,String aAlbum,String aArtist,Bitmap ablumArt,Long aDuration){
+    public Audio(String apath,String aName,String aAlbum,String aArtist,Bitmap ablumArt,Long aDuration,int albumID,int date,String genre){
         this.aPath=apath;
         this.aName=aName;
         this.aAlbum=aAlbum;
         this.aArtist=aArtist;
         this.albumArt=ablumArt;
         this.aDuration=aDuration;
+        this.albumID=albumID;
+        this.date=date;
+        this.genre=genre;
     }
     public static final Creator<Audio> CREATOR = new Creator<Audio>() {
         @Override

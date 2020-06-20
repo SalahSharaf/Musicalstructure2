@@ -1,45 +1,27 @@
 package com.example.bios.musicalstructure;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.ContentUris;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.UiThread;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SongsFragment extends Fragment {
 
-    ListView listView;
+    public static ListView listView;
     TextView numOfSongs;
     List<Audio> listOfAudios;
     public static int number = 0;
@@ -50,6 +32,7 @@ public class SongsFragment extends Fragment {
     public static ImageButton btnprevious, btnnext, btnplay;
     public static TextView artist;
     public static TextView songName;
+    public static MyListViewAdapter adapter;
 
     public static SongsFragment getInstance() {
         return new SongsFragment();
@@ -89,20 +72,31 @@ public class SongsFragment extends Fragment {
             songName.setText(workingAudio.getaName());
             artist.setText(workingAudio.getaArtist());
         }
-        listView.setAdapter(new MyListViewAdapter(getContext(), (ArrayList<Audio>) listOfAudios));
+        if (listOfAudios != null) {
+            adapter = new MyListViewAdapter(getContext(), (ArrayList<Audio>) listOfAudios);
+            listView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
+
+/*
         if (savedInstanceState != null) {
             bundle = getFragmentManager().getFragment(savedInstanceState, "KEY").getArguments();
             number = bundle.getInt("position");
         }
+*/
         LinearLayout linearLayout = view.findViewById(R.id.namePattern);
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AudioStudioFragment.class);
-                intent.putParcelableArrayListExtra("List", (ArrayList<? extends Parcelable>) listOfAudios);
-                startActivity(intent);
+                if (mediaPlayer != null) {
+
+                    Intent intent = new Intent(getContext(), AudioStudioActivity.class);
+                    intent.putParcelableArrayListExtra("List", (ArrayList<? extends Parcelable>) listOfAudios);
+                    startActivity(intent);
+                }
             }
         });
+
         setOnCLickListiners();
         return view;
     }
@@ -116,7 +110,7 @@ public class SongsFragment extends Fragment {
                     ///it is now playing
                     mediaPlayer.pause();
                     btn.setImageDrawable(getResources().getDrawable(R.drawable.ic_play_arrow_black_24dp));
-                } else if (mediaPlayer == null) {
+                } else if (mediaPlayer == null && listOfAudios != null) {
                     //t is now playing working
                     workingAudio = listOfAudios.get(0);
                     mediaPlayer = MediaPlayer.create(getContext(), Uri.parse(workingAudio.getaPath()));
@@ -133,7 +127,7 @@ public class SongsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ImageButton btn = (ImageButton) view;
-                if (number < listOfAudios.size() && mediaPlayer != null) {
+                if (listOfAudios != null && number < listOfAudios.size() && mediaPlayer != null) {
                     number += 1;
                     workingAudio = listOfAudios.get(number);
                     mediaPlayer.release();
@@ -142,6 +136,8 @@ public class SongsFragment extends Fragment {
                     btnplay.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause_black_24dp));
                     songName.setText(workingAudio.getaName());
                     artist.setText(workingAudio.getaArtist());
+                    listView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 }
             }
         });
@@ -149,7 +145,7 @@ public class SongsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ImageButton btn = (ImageButton) view;
-                if (number != 0 && mediaPlayer != null) {
+                if (listOfAudios != null && number != 0 && mediaPlayer != null) {
                     number -= 1;
                     workingAudio = listOfAudios.get(number);
                     mediaPlayer.release();
@@ -158,9 +154,24 @@ public class SongsFragment extends Fragment {
                     btnplay.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause_black_24dp));
                     songName.setText(workingAudio.getaName());
                     artist.setText(workingAudio.getaArtist());
+                    listView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 }
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        listOfAudios = MainActivity.audios;
+        listView.setAdapter(new MyListViewAdapter(getContext(), (ArrayList<Audio>) listOfAudios));
+        if (SongsFragment.mediaPlayer != null && SongsFragment.mediaPlayer.isPlaying()) {
+            btnplay.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause_black_24dp));
+        } else {
+            btnplay.setImageDrawable(getResources().getDrawable(R.drawable.ic_play_arrow_black_24dp));
+        }
+
     }
 
     @Override

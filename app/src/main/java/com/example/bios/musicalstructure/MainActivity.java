@@ -2,11 +2,13 @@ package com.example.bios.musicalstructure;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -178,8 +180,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (!cursor.moveToFirst()) {
             Toast.makeText(MainActivity.this, "No Music Found on SD Card.", Toast.LENGTH_LONG).show();
         } else if (cursor != null && cursor.moveToNext()) {
-
+            Toast.makeText(MainActivity.this, "Media is loaded.", Toast.LENGTH_LONG).show();
             int title = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+            int trackId = cursor.getColumnIndex(MediaStore.Audio.Media._ID);
             int data = cursor.getColumnIndex(MediaStore.Audio.Media.DATA);
             int date = cursor.getColumnIndex(MediaStore.Audio.Media.DATE_ADDED);
             int track = cursor.getColumnIndex(MediaStore.Audio.Media.TRACK);
@@ -188,6 +191,8 @@ public class MainActivity extends AppCompatActivity {
             int duration = cursor.getColumnIndex(MediaStore.Audio.Media.DURATION);
             int album = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
             int albumArt = cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART);
+            int albumId = cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ID);
+            int genre = cursor.getColumnIndex(MediaStore.Audio.Genres.NAME);
             audios = new ArrayList<>();
             do {
                 File fileA = new File(cursor.getString(data));
@@ -198,6 +203,9 @@ public class MainActivity extends AppCompatActivity {
                 Long durationA = cursor.getLong(duration);
                 int isMusicA = cursor.getInt(isMusic);
                 int dateA = cursor.getInt(date);
+                int AlbumId = cursor.getInt(albumId);
+                // String genreName = cursor.getString(genre);
+                int TrackId = cursor.getInt(trackId);
                 String albumArtString = "";
                 Bitmap albumArtBitmap;
                 try {
@@ -207,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 albumArtBitmap = stringToBitMap(albumArtString);
                 if (isMusicA != 0) {
-                    audios.add(new Audio(fileA.getPath(), titleA, albumA, artistA, albumArtBitmap, durationA));
+                    audios.add(new Audio(fileA.getPath(), titleA, albumA, artistA, albumArtBitmap, durationA, AlbumId, dateA, getGenre(TrackId)));
                 }
 
             } while (cursor.moveToNext());
@@ -258,4 +266,18 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    private String getGenre(int id) {
+        MediaMetadataRetriever mr = new MediaMetadataRetriever();
+
+        Uri trackUri = ContentUris.withAppendedId(
+                android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id);
+
+        mr.setDataSource(getApplicationContext(), trackUri);
+
+        String thisGenre = mr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE);
+        return thisGenre;
+    }
+
+
 }
